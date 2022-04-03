@@ -1,6 +1,8 @@
 let socket = io();
 let chatBox = document.getElementById("chatBox");
 let log = document.getElementById('log');
+let name = document.getElementById('name');
+let avatar = document.querySelector('.avatar');
 let user;
 
 //Alert de identificación - el Swal es una promesa
@@ -14,6 +16,8 @@ Swal.fire({
     }
 }).then(result => {
     user = result.value;
+    avatar.innerHTML = user.charAt(0);
+    name.innerHTML = user;
 })
 
 chatBox.addEventListener('keyup', evt=>{
@@ -26,12 +30,11 @@ chatBox.addEventListener('keyup', evt=>{
     }
 })
 
-
 //Sockets events
 socket.on('log', data=>{
     let messages="";
     data.forEach(log => {
-        messages = messages + `${log.user} dice: ${log.message}</br>`
+        messages = messages + `${log.user}: ${log.message}</br>`
     });
     log.innerHTML = messages;
 })
